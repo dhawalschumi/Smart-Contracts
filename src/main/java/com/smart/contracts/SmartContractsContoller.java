@@ -14,7 +14,7 @@ import com.smart.contracts.contract.ContractService;
 /**
  * Handles requests for the application home page.
  */
-@Controller("/contracts")
+@Controller("/request")
 public class SmartContractsContoller {	
 	
 	@Autowired
