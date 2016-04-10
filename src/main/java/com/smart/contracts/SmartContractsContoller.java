@@ -28,11 +28,14 @@ public class SmartContractsContoller {
 	
 	@RequestMapping(path="/execute", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String executedContract(@RequestBody Contract contract){
+		contractService.executeContract(contract);
 		return "Your Contract is executed successfully";
 	}
 	
 	@RequestMapping(path="/cancel", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String cancelContract(@RequestBody int contractId){		
+	public @ResponseBody String cancelContract(@RequestBody int contractId){
+		Contract contract = contractService.findContract(contractId);
+		contractService.cancelContract(contract);
 		return "Your Contract is executed successfully";
 	}
 	
