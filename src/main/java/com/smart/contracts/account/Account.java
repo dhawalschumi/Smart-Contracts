@@ -35,6 +35,10 @@ public class Account {
 	public String getAccountHolderIdentity() {
 		return accountHolderIdentity;
 	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 	
 	
 }

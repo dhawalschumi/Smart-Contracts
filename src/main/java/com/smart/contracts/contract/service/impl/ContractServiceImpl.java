@@ -6,7 +6,7 @@ package com.smart.contracts.contract.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.smart.contracts.broadcasting.service.EthereumBroadCastService;
+import com.smart.contracts.broadcasting.service.BlockChainBroadCastService;
 import com.smart.contracts.contract.AbstractContractService;
 import com.smart.contracts.contract.Contract;
 import com.smart.contracts.notification.Notification;
@@ -19,7 +19,7 @@ import com.smart.contracts.notification.Notification;
 public class ContractServiceImpl extends AbstractContractService{
 	
 	@Autowired
-	private EthereumBroadCastService broadCastService;
+	private BlockChainBroadCastService broadCastService;
 
 	/*
 	 * (non-Javadoc)
@@ -35,7 +35,7 @@ public class ContractServiceImpl extends AbstractContractService{
 	public Contract createContract(Contract contract) {		
 		Notification creationNotification = null;
 		if(validateContract(contract)){
-			creationNotification = broadCastService.sendCreateContractToEthereum(contract);
+			creationNotification = broadCastService.sendCreateContractToBlockChain(contract);
 		}
 		if(creationNotification.isAccepted()){
 			contract.setContractStatus("Successfully Placed");
@@ -60,7 +60,7 @@ public class ContractServiceImpl extends AbstractContractService{
 	@Override
 	public double executeContract(Contract contract) {
 		if(validateContract(contract)){
-			Notification executeNotification = broadCastService.sendExecuteContractToEthereum(contract);
+			Notification executeNotification = broadCastService.sendExecuteContractToBlockChain(contract);			
 			if(executeNotification.isAccepted()){
 				return contract.getTransactionFee();
 			}else{
@@ -109,7 +109,7 @@ public class ContractServiceImpl extends AbstractContractService{
 	@Override
 	public boolean cancelContract(Contract contract) {
 		if(contract.getBuyer().validateSignature() && contract.getSeller().validateSignature() && contract.getAgent().validateSignature()){
-			Notification notification = broadCastService.sendCancelContractToEthereum(contract);
+			Notification notification = broadCastService.sendCancelContractToBlockChain(contract);
 			if(notification.isAccepted()){
 				contract.setContractStatus("CANCELLED");
 				return true;
